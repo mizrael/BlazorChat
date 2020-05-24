@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 
 namespace BlazorChat.Services
 {
     public interface IUserStateProvider
     {
         void AddOrUpdate(UserState state);
-        UserState Get(Guid id);
+        IEnumerable<UserState> GetAll();
         void Remove(Guid id);
     }
 
@@ -23,9 +24,9 @@ namespace BlazorChat.Services
             _users.AddOrUpdate(state.Id, k => state, (k, s) => state);
         }
 
-        public UserState Get(Guid id)
+        public IEnumerable<UserState> GetAll()
         {
-            return _users[id];
+            return _users.Values;
         }
 
         public void Remove(Guid id)

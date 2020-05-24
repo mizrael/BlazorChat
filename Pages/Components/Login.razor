@@ -10,22 +10,26 @@
       <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
       <label for="inputEmail" class="sr-only">Username</label>
       <InputText id="inputEmail" class="form-control mb-4" @bind-Value=_login.Username placeholder="Username" required autofocus />
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-    
+      
+      @if(!_processing){
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+      }
     </EditForm>
 }
 
 @code{
     private ViewModels.Login _login;
-    private string _clientId;
-
+    private bool _processing = false;
+    
     protected override void OnInitialized()
     {
+        _processing = false;
         _login = new ViewModels.Login();
     }
 
     private void HandleValidSubmit()
     {
+        _processing = true;
         this.User = ChatService.Login(_login.Username, this.ConnectedClientProvider.Client);
     }
 

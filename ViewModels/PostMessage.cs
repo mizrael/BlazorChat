@@ -2,10 +2,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BlazorChat.ViewModels
 {
-
-    public class Message{
-
+    public class PostMessage
+    {
         [Required, MinLength(1)]
-        public string Text{get;set;}
+        public string Text { get; set; }
     }
 }

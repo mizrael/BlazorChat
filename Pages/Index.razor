@@ -9,7 +9,7 @@
 
 @code{
     private Login _loginBox;
-    private ViewModels.Message _message = new ViewModels.Message();
+    private ViewModels.PostMessage _message = new ViewModels.PostMessage();
 
     protected override void OnInitialized()
     {
@@ -20,11 +20,6 @@
     private async void OnUserLoggedIn(object sender, UserLoginEventArgs args)
     {
         await InvokeAsync(this.StateHasChanged);
-    }
-
-    private void HandleValidSubmit()
-    {
-        _message = new ViewModels.Message();
     }
 
     private void Dispose()

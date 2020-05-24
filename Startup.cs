@@ -28,13 +28,29 @@ namespace BlazorChat
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            
+
             services.AddSingleton<IUserStateProvider, UserStateProvider>();
-            services.AddSingleton<IChatService, ChatService>();
-            
+
             services.AddScoped<IConnectedClientProvider, ConnectedClientProvider>();
             services.AddScoped<ClientCircuitHandler>();
             services.AddScoped<CircuitHandler>(ctx => ctx.GetService<ClientCircuitHandler>());
+
+            var channel = System.Threading.Channels.Channel.CreateBounded<Message>(100);
+
+            services.AddSingleton<IMessagesPublisher>(ctx =>
+            {
+                return new MessagesPublisher(channel.Writer);
+            });
+
+            services.AddSingleton<IMessagesConsumer>(ctx =>
+            {
+                return new MessagesConsumer(channel.Reader);
+            });
+
+            services.AddHostedService<MessagesConsumerWorker>();
+
+            services.AddSingleton<IChatService, ChatService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
