@@ -28,7 +28,7 @@ namespace BlazorChat.Services
 
         public UserState Login(string username, ConnectedClient client)
         {
-            var user = new UserState(Guid.NewGuid(), username, client, DateTime.UtcNow);
+            var user = new UserState(username, client);
             _usersProvider.AddOrUpdate(user);
             this.UserLoggedIn?.Invoke(this, new UserLoginEventArgs(user));
             return user;
@@ -38,10 +38,11 @@ namespace BlazorChat.Services
 
         public event EventHandler<UserLoginEventArgs> UserLoggedIn;
 
-        public void Logout(Guid userId)
+        public void Logout(string username)
         {
-            _usersProvider.Remove(userId);
-            this.UserLoggedOut?.Invoke(this, new UserLogoutEventArgs(userId));
+            // TODO mark as logged out
+            //_usersProvider.Remove(username);
+            this.UserLoggedOut?.Invoke(this, new UserLogoutEventArgs(username));
         }
 
         public event EventHandler<UserLogoutEventArgs> UserLoggedOut;

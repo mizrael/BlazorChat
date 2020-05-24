@@ -4,11 +4,11 @@ namespace BlazorChat.Services
 {
     public class UserLogoutEventArgs : EventArgs
     {
-        public Guid UserId { get; }
+        public string Username { get; }
 
-        public UserLogoutEventArgs(Guid userId)
+        public UserLogoutEventArgs(string username)
         {
-            UserId = userId;
+            Username = username;
         }
     }
 

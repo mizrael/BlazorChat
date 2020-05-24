@@ -12,7 +12,7 @@ namespace BlazorChat.Services
 
         UserState Login(string username, ConnectedClient client);
         IEnumerable<UserState> GetAllUsers();
-        void Logout(Guid userId);
+        void Logout(string username);
         Task PostMessageAsync(UserState user, string message);
     }
 }
