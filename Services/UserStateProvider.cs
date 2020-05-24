@@ -9,20 +9,34 @@ namespace BlazorChat.Services
         void AddOrUpdate(UserState state);
         IEnumerable<UserState> GetAll();
         void Remove(string username);
-        UserState UserByClient(ConnectedClient client);
+        UserState GetByClient(ConnectedClient client);
+        UserState GetByUsername(string username);
     }
 
     public class UserStateProvider : IUserStateProvider
     {
         private ConcurrentDictionary<string, UserState> _users;
+        private ConcurrentDictionary<string, UserState> _usersByClientId;
         public UserStateProvider()
         {
             _users = new ConcurrentDictionary<string, UserState>();
+            _usersByClientId = new ConcurrentDictionary<string, UserState>();
         }
 
         public void AddOrUpdate(UserState state)
         {
             _users.AddOrUpdate(state.Username, k => state, (k, s) => state);
+            _usersByClientId.AddOrUpdate(state.Client.Id, k => state, (k, s) => state);
+        }
+
+        public UserState GetByUsername(string username)
+        {
+            return _users.ContainsKey(username) ? _users[username] : null;
+        }
+
+        public UserState GetByClient(ConnectedClient client)
+        {
+            return _usersByClientId.ContainsKey(client.Id) ? _usersByClientId[client.Id] : null;
         }
 
         public IEnumerable<UserState> GetAll()
@@ -33,11 +47,6 @@ namespace BlazorChat.Services
         public void Remove(string username)
         {
             _users.TryRemove(username, out var _);
-        }
-
-        public UserState UserByClient(ConnectedClient client)
-        {
-            throw new NotImplementedException();
         }
     }
 }

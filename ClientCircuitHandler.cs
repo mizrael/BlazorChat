@@ -27,7 +27,7 @@ namespace BlazorChat
 
         public override Task OnCircuitClosedAsync(Circuit circuit, CancellationToken cancellationToken)
         {
-            var user = _usersProvider.UserByClient(_provider.Client);
+            var user = _usersProvider.GetByClient(_provider.Client);
             if(null != user)
                 _chatService.Logout(user.Username);
             

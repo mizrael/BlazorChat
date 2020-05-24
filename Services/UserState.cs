@@ -11,5 +11,6 @@ namespace BlazorChat.Services
         }
         public string Username { get; }
         public ConnectedClient Client { get; }
+        public bool IsOnline {get;set;}
     }
 }
