@@ -1,0 +1,33 @@
+﻿@inject IChatService ChatService
+@inject IConnectedClientProvider ConnectedClientProvider
+
+@if(null == ConnectedClientProvider?.Client){
+    <p>waiting for connection...</p>
+}else{
+    
+    <EditForm Model=@_login OnValidSubmit="HandleValidSubmit" class="form-signin">
+    
+      <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+      <label for="inputEmail" class="sr-only">Username</label>
+      <InputText id="inputEmail" class="form-control mb-4" @bind-Value=_login.Username placeholder="Username" required autofocus />
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    
+    </EditForm>
+}
+
+@code{
+    private ViewModels.Login _login;
+    private string _clientId;
+
+    protected override void OnInitialized()
+    {
+        _login = new ViewModels.Login();
+    }
+
+    private void HandleValidSubmit()
+    {
+        this.User = ChatService.Login(_login.Username, this.ConnectedClientProvider.Client);
+    }
+
+    public UserState User { get; private set; }
+}

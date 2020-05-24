@@ -1,0 +1,45 @@
+﻿@inject IChatService ChatService
+
+<div class="row">      
+    <div class="col">    
+        <textarea id="chat" readonly class="w-100" style="min-height:200px;"></textarea>
+    </div>
+    <div class="col-3">    
+        <select readonly id="users" multiple class="w-100" style="min-height:200px;"></select>
+    </div>
+</div>
+
+<EditForm Model=@_message OnValidSubmit="HandleValidSubmit">
+    <div class="form-group row">                
+        <div class="col mb-2">
+            <InputText id="message" @bind-Value=_message.Text
+                class="form-control" placeholder="type your message here..." />
+        </div>                
+        <div class="col-2">
+            <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-comment"></i></button>
+        </div> 
+    </div>                       
+</EditForm>
+
+
+@code{
+    private ViewModels.Message _message = new ViewModels.Message();
+
+    protected override void OnInitialized()
+    {
+    }
+
+    private void OnUserLoggedIn(object sender, UserLoginEventArgs args)
+    {
+
+    }
+
+    private void HandleValidSubmit()
+    {
+        _message = new ViewModels.Message();
+    }
+
+
+    [Parameter]
+    public UserState LoggedUser {get;set;}
+}
