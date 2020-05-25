@@ -24,6 +24,20 @@ app {
     flex-direction: column;
 }
 
+nav.nav-main{
+    text-align: left;
+    background-color: #480128;
+    padding: 10px;
+}
+
+nav.nav-main h1{
+    font-size: 1.5rem;
+}
+
+nav.nav-main h1 a{
+    color: #fff;
+}
+
 .valid.modified:not([type=checkbox]) {
     outline: 1px solid #26b050;
 }
