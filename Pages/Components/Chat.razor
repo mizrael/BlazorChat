@@ -1,67 +1,50 @@
 ﻿@inject IChatService ChatService
-@inject IJSRuntime JSRuntime;
 
-<div class="row h-100">      
-    <div class="col-3 users">    
-        <div class='users-list p-2'>
-            @if(null != _users){
-                foreach (var user in _users)
-                {
-                    <p><span class='mr-1 status-@(user.IsOnline ? "online" : "offline")'><i class="fa fa-user"></i></span>@user.Username</p>    
-                }
+<div class="col m-1">    
+    <div class="w-100 mb-2 chat-messages" style="min-height:200px;">
+        @if(null != _messages){
+            foreach (var message in _messages)
+            {
+                <p class='msg'>
+                    <div class='msg-meta'>
+                        <span class='who'>@message.Username</span>
+                        <span class='when'>@message.When</span>
+                    </div>
+                    <span class='what'>@message.Text</span
+                ></p>    
             }
+        }
+    </div>
+
+    <div class="msg-form-container row">
+        <div class="col">
+            <EditForm Model=@_newMessage OnValidSubmit="HandleValidSubmit">
+                <div class="form-group row">                
+                    <div class="col mb-2">
+                        <InputText id="message" @bind-Value=_newMessage.Text
+                            class="form-control" placeholder="type your message here..." />
+                    </div>                
+                    <div class="col-2">
+                        @if(!_sending){
+                            <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-comment"></i></button>
+                        }
+                    </div> 
+                </div>                       
+            </EditForm>
         </div>
     </div>
 
-    <div class="col m-1">    
-        <div class="w-100 mb-2 chat-messages" style="min-height:200px;">
-            @if(null != _messages){
-                foreach (var message in _messages)
-                {
-                    <p class='msg'>
-                        <div class='msg-meta'>
-                            <span class='who'>@message.Username</span>
-                            <span class='when'>@message.When</span>
-                        </div>
-                        <span class='what'>@message.Text</span
-                    ></p>    
-                }
-            }
-        </div>
-
-        <div class="msg-form-container row">
-            <div class="col">
-                <EditForm Model=@_newMessage OnValidSubmit="HandleValidSubmit">
-                    <div class="form-group row">                
-                        <div class="col mb-2">
-                            <InputText id="message" @bind-Value=_newMessage.Text
-                                class="form-control" placeholder="type your message here..." />
-                        </div>                
-                        <div class="col-2">
-                            @if(!_sending){
-                                <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-comment"></i></button>
-                            }
-                        </div> 
-                    </div>                       
-                </EditForm>
-            </div>
-        </div>
-
-    </div>
 </div>
 
 @code{
     private ViewModels.PostMessage _newMessage = new ViewModels.PostMessage();
-    private IEnumerable<User> _users;
     private List<Message> _messages;
     private bool _sending;
 
     protected override void OnInitialized()
     {
-        ChatService.UserLoggedIn += OnUserLoggedIn;
-        ChatService.UserLoggedOut += OnUserLoggedOut;
         ChatService.MessageReceived += OnMessage;
-        _users = this.ChatService.GetAllUsers();
+     
         _messages = new List<Message>();
         _sending = false;
     }
@@ -72,22 +55,8 @@
         await InvokeAsync(StateHasChanged);
     }
 
-    private async void OnUserLoggedIn(object sender, UserLoginEventArgs args)
-    {
-        _users = this.ChatService.GetAllUsers();
-        await InvokeAsync(StateHasChanged);
-    }
-
-    private async void OnUserLoggedOut(object sender, UserLogoutEventArgs args)
-    {
-        _users = this.ChatService.GetAllUsers();
-        await InvokeAsync(StateHasChanged);
-    }
-
     private void Dispose()
     {
-        ChatService.UserLoggedIn -= OnUserLoggedIn;
-        ChatService.UserLoggedOut -= OnUserLoggedOut;
         ChatService.MessageReceived -= OnMessage;
     }
 

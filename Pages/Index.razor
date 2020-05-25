@@ -2,7 +2,10 @@
 @inject IChatService ChatService
 
 @if(null != _loginBox?.User){
-    <Chat LoggedUser=@_loginBox.User />
+    <div class="row h-100">      
+        <Users />
+        <Chat LoggedUser=@_loginBox.User />
+    </div>
 }else{
     <Login @ref="_loginBox" />
 }
