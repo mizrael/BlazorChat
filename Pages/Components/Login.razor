@@ -1,7 +1,7 @@
 ﻿@inject IChatService ChatService
-@inject IConnectedClientProvider ConnectedClientProvider
+@inject IConnectedClientService ConnectedClientService
 
-@if(null == ConnectedClientProvider?.Client){
+@if(null == ConnectedClientService?.Client){
     <p>waiting for connection...</p>
 }else{
     
@@ -30,8 +30,8 @@
     private void HandleValidSubmit()
     {
         _processing = true;
-        this.User = ChatService.Login(_login.Username, this.ConnectedClientProvider.Client);
+        this.User = ChatService.Login(_login.Username, this.ConnectedClientService.Client);
     }
 
-    public UserState User { get; private set; }
+    public User User { get; private set; }
 }

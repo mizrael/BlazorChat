@@ -1,6 +1,8 @@
+using BlazorChat.Models;
+
 namespace BlazorChat.Services
 {
-    public interface IConnectedClientProvider
+    public interface IConnectedClientService
     {
         ConnectedClient Client { get; }
 
@@ -8,7 +10,7 @@ namespace BlazorChat.Services
         void Disconnect();
     }
 
-    public class ConnectedClientProvider : IConnectedClientProvider
+    public class InMemoryConnectedClientService : IConnectedClientService
     {
         public ConnectedClient Client { get; private set; }
 
@@ -20,17 +22,6 @@ namespace BlazorChat.Services
         public void Disconnect()
         {
             this.Client = null;
-        }
-    }
-
-
-    public class ConnectedClient
-    {
-        public string Id { get; }
-
-        public ConnectedClient(string id)
-        {
-            Id = id;
         }
     }
 

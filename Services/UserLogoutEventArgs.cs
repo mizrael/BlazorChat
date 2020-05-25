@@ -1,4 +1,5 @@
 using System;
+using BlazorChat.Models;
 
 namespace BlazorChat.Services
 {

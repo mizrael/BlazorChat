@@ -1,12 +1,13 @@
 using System;
+using BlazorChat.Models;
 
 namespace BlazorChat.Services
 {
     public class UserLoginEventArgs : EventArgs
     {
-        public UserState User { get; }
+        public User User { get; }
 
-        public UserLoginEventArgs(UserState user)
+        public UserLoginEventArgs(User user)
         {
             User = user;
         }

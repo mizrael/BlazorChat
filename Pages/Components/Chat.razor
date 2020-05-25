@@ -52,7 +52,7 @@
 
 @code{
     private ViewModels.PostMessage _newMessage = new ViewModels.PostMessage();
-    private IEnumerable<UserState> _users;
+    private IEnumerable<User> _users;
     private List<Message> _messages;
     private bool _sending;
 
@@ -100,5 +100,5 @@
     }
 
     [Parameter]
-    public UserState LoggedUser { get; set; }
+    public User LoggedUser { get; set; }
 }

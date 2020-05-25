@@ -3,16 +3,17 @@ using System.Threading;
 using System.Threading.Tasks;
 using BlazorChat.Services;
 using Microsoft.AspNetCore.Components.Server.Circuits;
+using BlazorChat.Providers;
 
 namespace BlazorChat
 {
     public class ClientCircuitHandler : CircuitHandler
     {
-        private Services.IConnectedClientProvider _provider;
-        private Services.IUserStateProvider _usersProvider;
+        private IConnectedClientService _provider;
+        private IUserStateProvider _usersProvider;
         private Services.IChatService _chatService;
 
-        public ClientCircuitHandler(IConnectedClientProvider provider, IChatService chatService, IUserStateProvider usersProvider)
+        public ClientCircuitHandler(IConnectedClientService provider, IChatService chatService, IUserStateProvider usersProvider)
         {
             _provider = provider;
             _chatService = chatService;

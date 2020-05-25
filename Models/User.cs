@@ -1,13 +1,13 @@
 using System;
 
-namespace BlazorChat.Services
+namespace BlazorChat.Models
 {
-    public class UserState
+    public class User
     {
-        public UserState(string username, ConnectedClient clientId)
+        public User(string username, ConnectedClient clientId)
         {
             Username = username;
-            Client = clientId;
+            Client = clientId; 
         }
         public string Username { get; }
         public ConnectedClient Client { get; }

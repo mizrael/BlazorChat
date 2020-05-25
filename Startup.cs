@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BlazorChat.Models;
+using BlazorChat.Providers;
 using BlazorChat.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
@@ -31,7 +33,7 @@ namespace BlazorChat
 
             services.AddSingleton<IUserStateProvider, UserStateProvider>();
 
-            services.AddScoped<IConnectedClientProvider, ConnectedClientProvider>();
+            services.AddScoped<IConnectedClientService, InMemoryConnectedClientService>();
             services.AddScoped<ClientCircuitHandler>();
             services.AddScoped<CircuitHandler>(ctx => ctx.GetService<ClientCircuitHandler>());
 

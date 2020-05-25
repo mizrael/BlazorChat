@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using BlazorChat.Models;
 
 namespace BlazorChat.Services
 {
@@ -10,9 +11,9 @@ namespace BlazorChat.Services
         event EventHandler<UserLogoutEventArgs> UserLoggedOut;
         event EventHandler<Message> MessageReceived;
 
-        UserState Login(string username, ConnectedClient client);
-        IEnumerable<UserState> GetAllUsers();
+        User Login(string username, ConnectedClient client);
+        IEnumerable<User> GetAllUsers();
         void Logout(string username);
-        Task PostMessageAsync(UserState user, string message);
+        Task PostMessageAsync(User user, string message);
     }
 }

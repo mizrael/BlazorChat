@@ -1,6 +1,6 @@
 using System;
 
-namespace BlazorChat.Services
+namespace BlazorChat.Models
 {
     public class Message
     {

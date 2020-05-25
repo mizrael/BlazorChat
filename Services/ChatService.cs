@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using BlazorChat.Models;
+using BlazorChat.Providers;
 
 namespace BlazorChat.Services
 {
@@ -26,16 +28,16 @@ namespace BlazorChat.Services
 
         public event EventHandler<Message> MessageReceived;
 
-        public UserState Login(string username, ConnectedClient client)
+        public User Login(string username, ConnectedClient client)
         {
-            var user = new UserState(username, client)
+            var user = new User(username, client)
             { IsOnline = true };
             _usersProvider.AddOrUpdate(user);
             this.UserLoggedIn?.Invoke(this, new UserLoginEventArgs(user));
             return user;
         }
 
-        public IEnumerable<UserState> GetAllUsers() => _usersProvider.GetAll();
+        public IEnumerable<User> GetAllUsers() => _usersProvider.GetAll();
 
         public event EventHandler<UserLoginEventArgs> UserLoggedIn;
 
@@ -53,7 +55,7 @@ namespace BlazorChat.Services
 
         public event EventHandler<UserLogoutEventArgs> UserLoggedOut;
 
-        public async Task PostMessageAsync(UserState user, string message)
+        public async Task PostMessageAsync(User user, string message)
         {
             await _publisher.PublishAsync(new Message(user.Username, message, DateTime.UtcNow));
         }

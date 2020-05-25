@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Channels;
 using System.Threading.Tasks;
+using BlazorChat.Models;
 
 namespace BlazorChat.Services
 {
