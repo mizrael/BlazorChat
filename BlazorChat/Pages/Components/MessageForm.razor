@@ -1,0 +1,41 @@
+﻿@inject IChatService ChatService
+
+<div class="msg-form-container row">
+    <div class="col">
+        <EditForm Model=@_newMessage OnValidSubmit="HandleValidSubmit">
+            <div class="form-group row">                
+                <div class="col mb-2">
+                    <InputText id="message" @bind-Value=_newMessage.Text
+                        class="form-control" placeholder="type your message here..." />
+                </div>                
+                <div class="col-2">
+                    @if(!_sending){
+                        <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-comment"></i></button>
+                    }
+                </div> 
+            </div>                       
+        </EditForm>
+    </div>
+</div>
+
+@code{
+    private ViewModels.PostMessage _newMessage = new ViewModels.PostMessage();
+    private bool _sending;
+
+    protected override void OnInitialized()
+    {
+        _sending = false;
+    }
+
+
+    private async Task HandleValidSubmit()
+    {
+        _sending = true;
+        await ChatService.PostMessageAsync(this.LoggedUser, _newMessage.Text);
+        _newMessage = new ViewModels.PostMessage();
+        _sending = false;
+    }
+
+    [Parameter]
+    public User LoggedUser { get; set; }
+}
