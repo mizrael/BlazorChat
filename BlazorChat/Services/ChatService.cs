@@ -30,8 +30,8 @@ namespace BlazorChat.Services
 
         public User Login(string username, ConnectedClient client)
         {
-            var user = new User(username, client)
-            { IsOnline = true };
+            var user = new User(username);
+            user.Connect(client);
             _usersProvider.AddOrUpdate(user);
             this.UserLoggedIn?.Invoke(this, new UserLoginEventArgs(user));
             return user;
@@ -46,7 +46,7 @@ namespace BlazorChat.Services
             var user = _usersProvider.GetByUsername(username);
             if (null != user)
             {
-                user.IsOnline = false;
+                user.Disconnect();
                 _usersProvider.AddOrUpdate(user);
             }
             

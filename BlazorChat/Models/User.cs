@@ -4,13 +4,21 @@ namespace BlazorChat.Models
 {
     public class User
     {
-        public User(string username, ConnectedClient clientId)
+        public User(string username)
         {
             Username = username;
-            Client = clientId; 
         }
+
         public string Username { get; }
-        public ConnectedClient Client { get; }
-        public bool IsOnline {get;set;}
+        public ConnectedClient Client { get; private set; }
+        public void Connect(ConnectedClient client)
+        {
+            this.Client = client ?? throw new ArgumentNullException(nameof(client));
+        }
+
+        public void Disconnect()
+        {
+            this.Client = null;
+        }
     }
 }

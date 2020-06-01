@@ -7,7 +7,7 @@
             @if(null != _users){
                 foreach (var user in _users)
                 {
-                    <p><span class='mr-1 status-@(user.IsOnline ? "online" : "offline")'><i class="fa fa-user"></i></span>@user.Username</p>    
+                    <p><span class='mr-1 status-@( (null != user.Client) ? "online" : "offline")'><i class="fa fa-user"></i></span>@user.Username</p>    
                 }
             }
         </div>
