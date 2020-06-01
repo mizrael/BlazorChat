@@ -9,30 +9,30 @@ namespace BlazorChat
 {
     public class ClientCircuitHandler : CircuitHandler
     {
-        private IConnectedClientService _provider;
+        private IConnectedClientService _clientService;
         private IUserStateProvider _usersProvider;
         private Services.IChatService _chatService;
 
-        public ClientCircuitHandler(IConnectedClientService provider, IChatService chatService, IUserStateProvider usersProvider)
+        public ClientCircuitHandler(IConnectedClientService clientService, IChatService chatService, IUserStateProvider usersProvider)
         {
-            _provider = provider;
+            _clientService = clientService;
             _chatService = chatService;
             _usersProvider = usersProvider;
         }
 
         public override Task OnCircuitOpenedAsync(Circuit circuit, CancellationToken cancellationToken)
         {
-            _provider.Connect(circuit.Id);
+            _clientService.Connect(circuit.Id);
             return base.OnCircuitOpenedAsync(circuit, cancellationToken);
         }
 
         public override Task OnCircuitClosedAsync(Circuit circuit, CancellationToken cancellationToken)
         {
-            var user = _usersProvider.GetByClient(_provider.Client);
+            var user = _usersProvider.GetByClient(_clientService.Client);
             if(null != user)
                 _chatService.Logout(user.Username);
             
-            _provider.Disconnect();
+            _clientService.Disconnect();
             
             return base.OnCircuitClosedAsync(circuit, cancellationToken);
         }
